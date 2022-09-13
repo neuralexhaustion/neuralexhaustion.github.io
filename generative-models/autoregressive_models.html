@@ -23,8 +23,15 @@
             </ul>
         </div>
         <div class="blog">
-            <h1 style="color:white;margin-bottom: 0px;">🍁 Autoregressive Models</h1>
-            <h2 style="padding-left: 70px; margin-top: 10px;">Motivation, Key Ideas</h2>
+
+            <h1 style="color:white;margin-bottom: 0px"> <span> 🍁 Autoregressive Models</span> <span
+                    style="float:right; color:#67AB9F;"><span style="color: rgb(246, 51, 102)">date</span>
+                    13.09.2022</span></h1>
+
+            <h2 style="padding-left: 70px; margin-top: 10px;"><span> Motivation, Key Ideas</span> <span
+                    style="float:right;color: #67AB9F; font-family: 'Source Sans Pro Semi-Bold'; font-size:2.75rem; font-weight: 700;"><span
+                        style="color: rgb(246, 51, 102);">by</span style> Hidir Yesiltepe</span></h2>
+            <br>
             <figure>
                 <div style="display: flex; justify-content:center">
                     <img src="assets/cover.png" alt="">
@@ -406,8 +413,54 @@
                 we are going to take a look at the <span style="color:rgb(246, 51, 102)">objective</span> of
                 autoregressive models.
             </p>
-            <!-- <p>A consequence
-                of the parameterization of the given autoregressive model the weight matrix is a lower triangular
+
+
+            <h1>🍁 Main Objective</h1>
+            <p>Autoregressive models are explicit models which further means that they optimize the underlying joint
+                distribution
+                directly via <span style="color:rgb(246, 51, 102)">Maximum Likelihood Estimation (MLE).</span> Most
+                importantly, maximizing the MLE objective is not an arbitrary choice but is a natural consequence of KL
+                divergence between <b>P<sub>data</sub></b> and <b>P<sub>model</sub></b>. In this section we will take a
+                look at the natural relation between the KL Divergence and Maximum Likelihood Estimation.</p>
+
+            <h2>🍁 KL & MLE Relationship</h2>
+            <p>The ultimate goal of an autoregressive model is capturing the underlying probability distribution of the
+                data. To quantify how close two distributions are we attempt to <span
+                    style="color:rgb(246, 51, 102)">minimize the KL Divergence</span> between the
+                data distribution
+                <b>P<sub>data</sub></b> and distribution captured by an autoregressive model <b>P<sub>model</sub></b>:
+            </p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ \underset{\theta}{\text{minimize}} \hspace{30px}
+                KL(P_{data}(x) || P_{model}(x ;\theta)) \tag{13}$$</p>
+            <p>If we write the open form of KL to eliminate the terms which do not depend on parameter theta, we obtain:
+            </p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ \underset{\theta}{\text{minimize}} \hspace{30px}
+                \sum_x P_{data}(x) log \frac{P_{data}(x)}{P_{model}(x;\theta)} \tag{14}$$</p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ = \underset{\theta}{\text{minimize}} \hspace{30px}
+                \sum_x P_{data}(x) log P_{data}(x) - \sum_x P_{data}(x) log P_{model}(x;\theta) \tag{15}$$</p>
+            <p>Where the first term is called the <span style="color:rgb(246, 51, 102)">negative entropy</span> of the
+                random variable X and does not depend on the parameter theta. If we eliminate this term and write the
+                second term as an expectation we obtain:</p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ = \underset{\theta}{\text{minimize}} \hspace{30px}
+                -\mathbb{E}_{x \sim P_{data}}[log P_{model}(x;\theta)] \tag{16}$$</p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ = \underset{\theta}{\text{maximize}} \hspace{30px}
+                \mathbb{E}_{x \sim P_{data}}[log P_{model}(x;\theta)] \tag{17}$$</p>
+            <p>As the last step, applying the <span style="color:rgb(246, 51, 102)">Law of Large Numbers</span> to get
+                rid of expectation term yields:</p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ = \underset{\theta}{\text{maximize}} \hspace{30px}
+                \underset{n \rightarrow \infty}{\text{lim}} \sum_{i=1}^n logP_{model}(x^{(i)};\theta) \tag{18}$$</p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ = \underset{\theta}{\text{maximize}} \hspace{30px}
+                logP_{model}(x;\theta) \tag{19}$$</p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ = \underset{\theta}{\text{maximize}} \hspace{30px}
+                P_{model}(x;\theta) \tag{20}$$</p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ = \theta_{MLE} \tag{21}$$</p>
+            <p>As the summary, since autoregressive models are likelihood based, as a consequence of minimizing the KL
+                Divergence between the true underlying distribution and the distribution represented by the model we
+                estimate the model parameters. It turns out that estimating the model parameters in this fashion
+                equivalent to maximum likelihood estimation. In practice we minimize the negative log likelihood.</p>
+            <h1>🍁 Inference and Sampling</h1>
+            <p>A consequence
+                of the parameterization of the an autoregressive model is that the weight matrix is a lower triangular
                 matrix.</p>
             <br>
             <figure>
@@ -430,87 +483,42 @@
                         Figure 9: Representation of Weight Matrix of the described Autoregressive Model is a Lower
                         Triangular Matrix.
                     </figcaption>
-            </figure> -->
-
-            <h1>🍁 Main Objective</h1>
-            <p>Autoregressive models are explicit models which further means that they optimize the underlying joint
-                distribution
-                directly via <span style="color:rgb(246, 51, 102)">Maximum Likelihood Estimation (MLE).</span> Most
-                importantly, maximizing the MLE objective is not an arbitrary choice but is a natural consequence of KL
-                divergence between <b>P<sub>data</sub></b> and <b>P<sub>model</sub></b>. </p>
-
-            <h2>🍁 KL Divergence</h2>
-            <p>We need to quantify the similarity or dissimilarity between the data generating distribution
-                and the distribution represented by a generative model, namely
-                <span style="color:rgb(246, 51, 102)"><b>P<sub>data</sub></b></span> and <span
-                    style="color:rgb(246, 51, 102)"><b>P<sub>model</sub></b></span> respectively. A common notion for
-                measuring the closeness between two distribution is the <span style="color:rgb(246, 51, 102)">
-                    Kullback-Leibler (KL)
-                    Divergence</span> and is defined as following:
+            </figure>
+            <p>
+                <b><span style="color:rgb(246, 51, 102)">An important observation here:</span></b> Inference becomes a
+                parallel computation and fast in autoregressive models. Consider the density estimation of an arbitrary
+                point:
             </p>
+            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ x = [x_1, ..., x_n]^T $$</p>
+            <p>All we need to do is compute the above matrix multiplication to yield log-conditionals. Then how do we
+                obtain log-conditionals if our architecture models logits rather than log-probabilities directly? It is
+                quite simple as well. Compute the above matrix multiplication to yield logits, then apply softmax to
+                yield each probability and finally apply logarithm to each probability, it is done!</p>
+            <figure>
+                <div style="display: flex; justify-content:center">
+                    <img src="assets/logit_to_log_prob.png" alt="">
+                </div>
+                <div style="display: flex; justify-content:center">
+                    <figcaption style="text-align: center; margin-top: 10px; font-size:14px; color:#757575;">
+                        Figure 10: Transition from Logit to Probability to Log Probability
+                    </figcaption>
+            </figure>
+            <p>Above you see the transition in which L stands for the logit. Obtaining the objective after this step is
+                not a big deal. It reduces to adding each conditional log probability.</p>
+            <figure>
+                <div style="display: flex; justify-content:center">
+                    <img src="assets/joint_log_prob.png" alt="">
+                </div>
+                <div style="display: flex; justify-content:center">
+                    <figcaption style="text-align: center; margin-top: 10px; font-size:14px; color:#757575;">
+                        Figure 11: The Objective - Log-Likelihood - Computation
+                    </figcaption>
+            </figure>
+            <p>Sampling on the other hand is a sequential process and slow. Why is that? Since x<sub>2</sub> depends on
+                x<sub>1</sub> we need to sample x<sub>1</sub> prior to x<sub>2</sub>. Further, since x<sub>3</sub>
+                depends both x<sub>1</sub> and x<sub>2</sub> we need to sample those prior to x<sub>3</sub>. Following
+                this fashion brings us to a sequential process.</p>
 
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ KL( p(x)\hspace{10px}||\hspace{10px} q(x)) =
-                \mathbb{E}_{x \sim p(x)}\left[log \frac{p(x)}{q(x)}\right] \tag{13}$$</p>
-            <p>If we open the expectation explicitly in a summation form we have:</p>
-
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ KL( p(x)\hspace{10px}||\hspace{10px} q(x)) =
-                \sum_{x} p(x) log \left[\frac{p(x)}{q(x)}\right] \tag{14}$$</p>
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ OR $$ </p>
-
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ KL( p(x)\hspace{10px}||\hspace{10px} q(x)) =
-                -\sum_{x} p(x) log \left[\frac{q(x)}{p(x)}\right] \tag{15}$$</p>
-
-            <p>where the summation occurs over all possible values of random variable x. Now, let's dive into the
-                properties of KL divergence. The first property is about the <span
-                    style="color:rgb(246, 51, 102)">asymmetry of KL Divergence.</span> Recall that, KL is not a distance
-                metric but a divergence metric thus divergence between p and q is not the same as divergence between q
-                and p: </p>
-
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ KL( p(x)\hspace{10px}||\hspace{10px} q(x)) \neq
-                KL( q(x)\hspace{10px}||\hspace{10px} p(x)) \tag{16}$$</p>
-
-            <p> It significantly matters which distribution we are taking the expectation with respect to. Second
-                property is about the <span style="color:rgb(246, 51, 102)">range of KL Divergence.</span> It is a
-                non-negative measurement.</p>
-
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ KL( p(x)\hspace{10px}||\hspace{10px} q(x)) \geq 0
-                \tag{17}$$</p>
-            <p>To be able to derive this property, we need to take a look at <span
-                    style="color:rgb(246, 51, 102)">Jensen's Inequality.</span>Jensen's Inequality states that for a
-                convex function f and any function g, the following inequality holds:</p>
-
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ \mathbb{E}[f(g(x))] \geq f(\mathbb{E}[g(x)])
-                \tag{18}$$</p>
-            <p>Recall the representation of KL Divergence shown in <span style="color:rgb(246, 51, 102)">Equation
-                    [13].</span> If we adjust function f and g for KL equation we get:</p>
-
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ f: log$$</p>
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ g: \frac{p(x)}{q(x)}$$</p>
-            <p>To be able to apply Jensen's Inequality to KL Divergence, we need to make sure that we have a convex
-                function f. To accomplish this, we have to make an additional adjustment since logarithm function is a
-                concave function. The trick is simple: <span style="color:rgb(246, 51, 102)"> since negative logarithm
-                    is a convex function, we are going to
-                    take advantage of it and utilize from the representation of KL Divergence shown in Equation [15] and
-                    consider the negative sign belongs to logarithm function.</span></p>
-
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ KL( p(x)\hspace{10px}||\hspace{10px} q(x)) =
-                -\sum_{x} p(x) log \left[\frac{q(x)}{p(x)}\right] \geq -log\left(\sum_{x} p(x) \frac{q(x)}{p(x)}\right)
-                \tag{19}$$</p>
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ KL( p(x)\hspace{10px}||\hspace{10px} q(x)) =
-                -\sum_{x} p(x) log \left[\frac{q(x)}{p(x)}\right] \geq -log\left(\sum_{x} q(x)\right)
-                \tag{20} $$</p>
-            <p>Since the inside of the logarithm in right handside of the inequality sums to 1 and log(1) = 0 we have:
-            </p>
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ KL( p(x)\hspace{10px}||\hspace{10px} q(x)) =
-                -\sum_{x} p(x) log \left[\frac{q(x)}{p(x)}\right] \geq 0
-                \tag{21} $$</p>
-
-            <p>Now, we know the backbone attributes of KL Divergence, let's see it in action. We need to minimize the
-                divergence between data distribution and the model distribution and since data points are sampled from
-                given data distribution we should write the order in the following way and not the other way around:
-            </p>
-            <p style="font-size: 1.8rem; font-family: 'KaTeX';">$$ \mathop{minimize}_{\textbf{θ}} \hspace{20px} KL(
-                P_{data}(x)\hspace{10px}||\hspace{10px} P_{model}(x;\theta)) \tag{22} $$</p>
 </body>
 
 </html>
